@@ -1,6 +1,7 @@
 package com.sourabhcodes.android.mvvmcrudapp.db.activities
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -11,6 +12,7 @@ import com.sourabhcodes.android.mvvmcrudapp.SubscriberViewModel
 import com.sourabhcodes.android.mvvmcrudapp.SubscriberViewModelFactory
 import com.sourabhcodes.android.mvvmcrudapp.adapters.SubscribersListRecyclerViewAdapter
 import com.sourabhcodes.android.mvvmcrudapp.databinding.ActivityMainBinding
+import com.sourabhcodes.android.mvvmcrudapp.db.Subscriber
 import com.sourabhcodes.android.mvvmcrudapp.db.SubscriberDatabase
 import com.sourabhcodes.android.mvvmcrudapp.db.SubscriberRepository
 
@@ -42,7 +44,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun displaySubscribersList() {
         subscriberViewModel.allSubscribers.observe(this, Observer {
-            binding.rvSubscribers.adapter = SubscribersListRecyclerViewAdapter(it)
+            binding.rvSubscribers.adapter =
+                SubscribersListRecyclerViewAdapter(it) { selectedItem: Subscriber ->
+                    itemClicked(
+                        selectedItem
+                    )
+                }
         })
+    }
+
+    private fun itemClicked(subscriber: Subscriber) {
+        Toast.makeText(applicationContext, "" + subscriber.name, Toast.LENGTH_SHORT).show()
     }
 }

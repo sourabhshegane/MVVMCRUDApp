@@ -9,7 +9,8 @@ import com.sourabhcodes.android.mvvmcrudapp.databinding.ListItemBinding
 import com.sourabhcodes.android.mvvmcrudapp.db.Subscriber
 
 class SubscribersListRecyclerViewAdapter(
-    private val subscribers: List<Subscriber>
+    private val subscribers: List<Subscriber>,
+    private val clickListener: (Subscriber) -> Unit
 ) : RecyclerView.Adapter<SubscribersListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubscribersListViewHolder {
@@ -20,7 +21,7 @@ class SubscribersListRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: SubscribersListViewHolder, position: Int) {
-        holder.bind(subscribers[position])
+        holder.bind(subscribers[position], clickListener)
     }
 
     override fun getItemCount(): Int {
@@ -28,11 +29,14 @@ class SubscribersListRecyclerViewAdapter(
     }
 }
 
-class SubscribersListViewHolder(val binding: ListItemBinding) :
+class SubscribersListViewHolder(private val binding: ListItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(subscriber: Subscriber) {
+    fun bind(subscriber: Subscriber, clickListener: (Subscriber) -> Unit) {
         binding.tvListItemSubscriberName.text = subscriber.name
         binding.tvListItemSubscriberEmail.text = subscriber.email
+        binding.clListItem.setOnClickListener {
+            clickListener(subscriber)
+        }
     }
 }
