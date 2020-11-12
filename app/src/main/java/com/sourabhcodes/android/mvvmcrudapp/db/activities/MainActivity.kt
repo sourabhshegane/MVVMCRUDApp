@@ -1,7 +1,6 @@
 package com.sourabhcodes.android.mvvmcrudapp.db.activities
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -54,6 +53,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun itemClicked(subscriber: Subscriber) {
-        Toast.makeText(applicationContext, "" + subscriber.name, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(applicationContext, "" + subscriber.name, Toast.LENGTH_SHORT).show()
+        subscriberViewModel.initUpdateAndDelete(subscriber)
     }
 }
