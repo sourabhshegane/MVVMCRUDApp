@@ -1,6 +1,7 @@
 package com.sourabhcodes.android.mvvmcrudapp
 
 import androidx.databinding.Bindable
+import androidx.databinding.Observable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,7 +9,8 @@ import com.sourabhcodes.android.mvvmcrudapp.db.Subscriber
 import com.sourabhcodes.android.mvvmcrudapp.db.SubscriberRepository
 import kotlinx.coroutines.launch
 
-class SubscriberViewModel(private val subscriberRepository: SubscriberRepository) : ViewModel() {
+class SubscriberViewModel(private val subscriberRepository: SubscriberRepository) : ViewModel(),
+    Observable {
 
     val allSubscribers = subscriberRepository.subscribers
 
@@ -39,19 +41,27 @@ class SubscriberViewModel(private val subscriberRepository: SubscriberRepository
         clearAllSubscribers()
     }
 
-    fun insertSubscriber(subscriber: Subscriber) = viewModelScope.launch {
+    private fun insertSubscriber(subscriber: Subscriber) = viewModelScope.launch {
         subscriberRepository.insertSubscriber(subscriber)
     }
 
-    fun deleteSubscriber(subscriber: Subscriber) = viewModelScope.launch {
+    private fun deleteSubscriber(subscriber: Subscriber) = viewModelScope.launch {
         subscriberRepository.delete(subscriber)
     }
 
-    fun updateSubscriber(subscriber: Subscriber) = viewModelScope.launch {
+    private fun updateSubscriber(subscriber: Subscriber) = viewModelScope.launch {
         subscriberRepository.update(subscriber)
     }
 
-    fun clearAllSubscribers() = viewModelScope.launch {
+    private fun clearAllSubscribers() = viewModelScope.launch {
         subscriberRepository.deleteAllSubscribers()
+    }
+
+    override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+
+    }
+
+    override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+
     }
 }
